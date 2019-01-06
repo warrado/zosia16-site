@@ -24,7 +24,7 @@ key="$1"
 
 case $key in
     --help)
-    echo ${HELP_TEXT}
+    echo "${HELP_TEXT}"
     exit 0
     ;;
     --no-cache)
@@ -48,6 +48,7 @@ case $key in
     ;;
     *)
     echo "Argument $1 is not supported."
+    echo "${HELP_TEXT}"
     exit 1
     ;;
 esac
