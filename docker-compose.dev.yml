@@ -4,10 +4,11 @@ services:
   db:
     image: postgres
   web:
-    build: .
+    build: ./app
+    image: "zosia_web:${TAG}"
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - ./app:/code
     ports:
       - "8000:8000"
     depends_on:
