@@ -15,7 +15,7 @@ Options:
     --help      - prints this help message
 "
 
-DOCKER_REPO_URI="463715963173.dkr.ecr.eu-central-1.amazonaws.com/zosia"
+DOCKER_REPO_URI_BASE="463715963173.dkr.ecr.eu-central-1.amazonaws.com"
 
 TAG="latest"
 
@@ -71,6 +71,7 @@ eval ${DOCKER_LOGIN_CMD}
 ZOSIA_IMG_NAME="zosia_prod_web:${TAG}"
 ZOSIA_IMG_ID=`docker images ${ZOSIA_IMG_NAME} | tail -1 | awk '{ print $3 }'`
 
+DOCKER_REPO_URI="${DOCKER_REPO_URI_BASE}/zosia_web"
 REGISTRY_IMG_NAME="${DOCKER_REPO_URI}:${TAG}"
 docker tag ${ZOSIA_IMG_ID} ${REGISTRY_IMG_NAME}
 docker push ${REGISTRY_IMG_NAME}
@@ -79,6 +80,7 @@ docker push ${REGISTRY_IMG_NAME}
 NGINX_IMG_NAME="zosia_prod_nginx:${TAG}"
 NGINX_IMG_ID=`docker images ${NGINX_IMG_NAME} | tail -1 | awk '{ print $3 }'`
 
+DOCKER_REPO_URI="${DOCKER_REPO_URI_BASE}/zosia_nginx"
 REGISTRY_IMG_NAME="${DOCKER_REPO_URI}:${TAG}"
 docker tag ${NGINX_IMG_ID} ${REGISTRY_IMG_NAME}
 docker push ${REGISTRY_IMG_NAME}
