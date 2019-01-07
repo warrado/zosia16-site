@@ -53,8 +53,14 @@ case $key in
 esac
 done
 
+export COMPOSE_HTTP_TIMEOUT=200
+
 if [[ ${BUILD} -eq 1 ]]; then
     ./build.sh ${NO_CACHE} ${VERBOSE} --tag ${TAG}
+    if [[ $? -ne 0 ]]; then
+        echo "ERROR while building images"
+        exit 1
+    fi
 fi
 
 export TAG=${TAG}
