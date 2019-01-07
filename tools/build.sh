@@ -32,8 +32,6 @@ case $key in
     shift
     ;;
     --prod)
-    echo "Currently only dev builds are supported"
-    exit 1
     COMPOSE_FILE_REMINDER="prod"
     shift
     ;;
@@ -57,5 +55,7 @@ done
 export TAG=${TAG}
 
 COMPOSE_FILENAME="docker-compose.${COMPOSE_FILE_REMINDER}.yml"
-echo "Running build using ${COMPOSE_FILENAME} and tagging containers with zosia:${TAG}"
+
+CONTAINER_NAME="zosia_${COMPOSE_FILE_REMINDER}_web:${TAG}"
+echo "Running build using ${COMPOSE_FILENAME} and tagging containers with ${CONTAINER_NAME}"
 docker-compose ${VERBOSE} -f ../${COMPOSE_FILENAME} build ${NO_CACHE}
