@@ -19,12 +19,21 @@ LOGGING = {
             'level': 'DEBUG',
             'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/django.log'
         }
     },
     'loggers': {
         'django.db.backends': {
             'level': 'DEBUG',
             'handlers': ['console'],
+        },
+        'django': {
+            'level': 'INFO',
+            'handlers': ['file']
         }
     }
 }
@@ -36,8 +45,9 @@ CACHES = {
 }
 
 DATABASES['default']['CONN_MAX_AGE'] = 5
-DATABASES['default']['HOST'] = 'db'
-DATABASES['default']['PASSWORD'] = 'zosia'
+DATABASES['default']['HOST'] = os.environ.get('DB_HOST')
+DATABASES['default']['USER'] = os.environ.get('DB_USERNAME')
+DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASSWORD')
 
 # This, in conjunction with DEBUG=True enables 'debug' directives in templates
 # Especially room.js makes heavy use of it
