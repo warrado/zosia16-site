@@ -26,3 +26,5 @@ RUN npm install && make deps
 RUN cp -R /code/static/bower_components /bower_components && cp -R /code/node_modules /node_modules
 
 ADD . /code/
+
+EXPOSE 8000
