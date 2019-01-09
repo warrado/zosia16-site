@@ -1,17 +1,29 @@
-upstream app {
-    server zosia_web:8000;
+server {
+    listen 80 default_server;
+
+    server_name zosia.org www.zosia.org;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass zosia-web:8000;
+    }
 }
 
 server {
-    listen 80 default_server;
-    server_name zosia.org;
+    listen 443 ssl;
 
-    location / {
-        allow all;
-        proxy_http_version 1.1;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Cluster-Client-Ip $remote_addr;
-        proxy_pass http://app;
-    }
+    server_name zosia.org www.zosia.org;
+
+    ssl_certificate /etc/nginx/conf.d/ssl_cert.pem;
+    ssl_certificate_key /etc/nginx/conf.d/ssl_key.key;
+
+}
+
+# server for ELB heathcheck pings
+server {
+    listen 81;
+    server_name _;
+
+    add_header Content-Type text/plain;
+    return 200 'healthcheck';
 }

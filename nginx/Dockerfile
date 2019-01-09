@@ -1,7 +1,9 @@
 FROM nginx
 
-RUN mkdir /etc/nginx/sites-enabled
-COPY zosia /etc/nginx/sites-available/zosia
-RUN ln -s /etc/nginx/sites-available/zosia \\
-          /etc/nginx/sites-enabled/
-RUN service nginx restart
+EXPOSE 81
+
+ADD ssl_cert.pem /etc/nginx/conf.d/ssl_cert.pem
+ADD ssl_key.key /etc/nginx/conf.d/ssl_key.key
+
+COPY uwsgi_params /etc/nginx/conf.d/uwsgi_params
+COPY zosia /etc/nginx/conf.d/zosia.conf
